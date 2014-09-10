@@ -31,16 +31,16 @@ class SearchClient(object):
     def __init__(self, key, secret):
         version = 'v2'
         self.base_url = 'http://opensearch.aliyuncs.com'
-        self.sign_params = {}
-        self.sign_params['Version'] = version
-        self.sign_params['AccessKeyId'] = key
-        self.sign_params['SignatureMethod'] = 'HMAC-SHA1'
-        self.sign_params['SignatureVersion'] = '1.0'
-
+        self.sign_params = {
+            'Version': version,
+            'AccessKeyId': key,
+            'SignatureMethod': 'HMAC-SHA1',
+            'SignatureVersion': '1.0',
+        }
         self.secret = secret
         self.session = requests.session()
 
-    def call(self, path, params={}, method='GET', block=False):
+    def call(self, path, params={}, method='GET'):
         if SearchClient.qps_limit > 0:
             if SearchClient.qps_offset == SearchClient.qps_limit:
                 t = int(time.time())
